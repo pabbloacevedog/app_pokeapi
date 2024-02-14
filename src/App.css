@@ -1,0 +1,14 @@
+#root {
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+.App-header {
+    text-align: center; /* Centra todo el contenido del header */
+}
+
+.app-logo {
+    max-width: 200px;
+    margin: 0 auto;
+}
+

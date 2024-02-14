@@ -1,0 +1,16 @@
+.principal-page {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .principal-page {
+        flex-direction: column;
+    }
+    .container-details {
+        width: 100%;
+    }
+}

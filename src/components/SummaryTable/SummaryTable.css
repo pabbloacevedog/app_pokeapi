@@ -1,0 +1,30 @@
+.pokemon-summary{
+    margin: 20px 0;
+    background: #007bff;
+    border-radius: 10px;
+    padding-top: 5px;
+    color: #fff;
+}
+.summary-title {
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
+
+.summary-table th,
+.summary-table td {
+    border-top: 1px solid #ddd;
+    padding: 8px;
+    padding-left: 5%;
+    text-align: center;
+}
+
+.summary-table th {
+    color: #fff;
+    background-color: #007bff;
+}
