@@ -119,6 +119,16 @@ td {
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
 }
+.select-input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 0px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
 .table-title {
     margin-bottom: 20px;
     font-family: sans-serif;
@@ -135,10 +145,33 @@ td {
     .pagination-controls {
         display: flow;
         justify-content: flex-end;
+        margin: 20px 0px;
     }
     .pokemons-table {
         font-size: 1.2em;
         font-family: sans-serif;
         min-width: 100px;
+    }
+    .select-input {
+        padding: 10px 40px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 0px;
+        /* margin-bottom: 20px; */
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+    .search-input {
+        margin-top: 10px;
+        padding: 10px 40px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 0px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
     }
 }

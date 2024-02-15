@@ -98,7 +98,7 @@ export const PokemonsTable = () => {
                     <select
                         value={itemsPerPage.toString()}
                         onChange={handleItemsPerPageChange}
-                        className="search-input"
+                        className="select-input"
                     >
                         <option value="5">5</option>
                         <option value="10">10</option>
