@@ -7,7 +7,7 @@ import { fetchPokemonDetails } from "../../store/pokemon/pokemonApi";
 import { fetchPokemons } from "../../store/pokemon/pokemonApi";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import "./PokemonsTable.css";
-
+import { VITE_URL_IMG_DEFAULT } from '../../../config/config.js';
 export const PokemonsTable = () => {
     const dispatch = useAppDispatch(); // hooks personalizado para hacer llamadas a la Api de pokeapi
     const allPokemons = useAppSelector(selectAllPokemons); // almacena la lista de pokemons
@@ -81,7 +81,7 @@ export const PokemonsTable = () => {
         setItemsPerPage(Number(event.target.value));
     };
     // URL base para las imágenes de los Pokémon desde las variables de entorno
-    const baseUrlForImages = import.meta.env.VITE_URL_IMG_DEFAULT;
+    const baseUrlForImages = VITE_URL_IMG_DEFAULT;
 
     return (
         <div className="pokemons-container">

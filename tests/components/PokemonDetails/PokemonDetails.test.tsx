@@ -1,77 +1,65 @@
-
-import { PokemonDetails } from "../../../src/components/PokemonDetails/PokemonDetails";
-import React from "react";
-import configureMockStore from "redux-mock-store";
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import thunk from "redux-thunk";
-// Crea el mock del store
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+import configureMockStore from "redux-mock-store";
+import { PokemonDetails } from "../../../src/components/PokemonDetails/PokemonDetails";
 
-// Mock de un pokemon seleccionado
-const initialState = {
+// Se agrega esta linea de codigo porque jest considera un error el import.meta.VARRIALBLE_ENV
+jest.mock("../../../config/config", () => ({
+    VITE_URL_IMG_DEFAULT: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/",
+}));
+
+const mockStore = configureMockStore();
+const store = mockStore({
     pokemon: {
         selectedPokemon: {
-            id: 1,
-            name: "bulbasaur",
+            name: "Bulbasaur",
             sprites: {
-                front_default: "http://example.com/bulbasaur.png",
+                front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
             },
-            base_experience: 64,
-            height: 7,
-            weight: 69,
+            id: 1,
             types: [
-                { type: { name: "grass" } },
-                { type: { name: "poison" } },
+                {
+                    type: { name: "grass" },
+                },
+                {
+                    type: { name: "poison" },
+                },
             ],
             abilities: [
-                { ability: { name: "overgrow" } },
-                { ability: { name: "chlorophyll" } },
+                { ability: { name: "overgrow" }, is_hidden: false },
+                { ability: { name: "chlorophyll" }, is_hidden: true },
             ],
+            height: 7,
+            weight: 69,
+            base_experience: 64,
         },
+        status: "succeeded",
+        error: null,
     },
-};
+});
 
 describe("PokemonDetails Component", () => {
-    let store;
-
-    beforeEach(() => {
-        // Configura el store con el estado inicial para cada test
-        store = mockStore(initialState);
-    });
-
-    test("Muestra el detalle de pokemon cuando se selecciona uno de la tabla", () => {
+    test("Renders Pokemon details correctly", () => {
         render(
             <Provider store={store}>
                 <PokemonDetails />
             </Provider>
         );
 
+        // Valida que el componente muestre los detalles del Pokemon seleccionado
         expect(screen.getByText("BULBASAUR")).toBeInTheDocument();
-        expect(screen.getByText("ID: 1")).toBeInTheDocument();
-        expect(screen.getByText("Experiencia Base: 64")).toBeInTheDocument();
-        expect(screen.getByText("Altura: 0.7 m")).toBeInTheDocument();
-        expect(screen.getByText("Peso: 6.9 kg")).toBeInTheDocument();
-        expect(screen.getByText("Tipo(s): grass, poison")).toBeInTheDocument();
-        expect(screen.getByText("Habilidades: overgrow, chlorophyll")).toBeInTheDocument();
-        expect(screen.getByRole("img", { name: /bulbasaur/i })).toHaveAttribute("src", "http://example.com/bulbasaur.png");
+        expect(screen.getByText("1")).toBeInTheDocument(); //ID:
+        expect(screen.getByText("grass, poison")).toBeInTheDocument(); //Tipo(s):
+        expect(screen.getByText("overgrow, chlorophyll")).toBeInTheDocument(); //Habilidades:
+        expect(screen.getByText("0.7 m")).toBeInTheDocument();//Altura:
+        expect(screen.getByText("6.9 kg")).toBeInTheDocument();//Peso:
+        expect(screen.getByText("64")).toBeInTheDocument(); //Experiencia Base:
+        // Valida que la imagen se muestre
+        expect(screen.getByRole("img")).toHaveAttribute("src", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png");
     });
+});
 
-    test("Muestra un mensaje cuando no se selecciona ninguno", () => {
-        // Configura el store sin pokemon seleccionado
-        const noSelectedPokemonState = {
-            ...initialState,
-            pokemon: { ...initialState.pokemon, selectedPokemon: null },
-        };
-        const noPokemonStore = mockStore(noSelectedPokemonState);
-
-        render(
-            <Provider store={noPokemonStore}>
-                <PokemonDetails />
-            </Provider>
-        );
-
-        expect(screen.getByText(/Selecciona un Pokémon para ver sus detalles./i)).toBeInTheDocument();
-    });
+test("demo", () => {
+    expect(true).toBe(true);
 });

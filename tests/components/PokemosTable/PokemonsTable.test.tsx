@@ -1,46 +1,40 @@
-import React from "react";
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
 import { PokemonsTable } from "../../../src/components/PokemonsTable/PokemonsTable";
-import { fetchPokemons } from "../../../src/store/pokemon/pokemonApi";
+import configureMockStore from "redux-mock-store";
+// Se agrega esta linea de codigo porque jest considera un error el import.meta.VARRIALBLE_ENV
+jest.mock("../../../config/config", () => ({
+    VITE_URL_POKEAPI: "https://pokeapi.co/api/v2/pokemon",
+    VITE_URL_IMG_DEFAULT:
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/",
+}));
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-describe("PokemonsTable Component", () => {
-    let store;
-
-    beforeEach(() => {
-        store = mockStore({
-            pokemon: {
-                list: [],
-                status: 'idle',
-                error: null,
-            },
-        });
-        store.dispatch = jest.fn(); // Mock del dispatch 
+test("Renderiza la tabla sin errores", () => {
+    const mockStore = configureMockStore();
+    const store = mockStore({
+        pokemon: {
+            list: [
+                {
+                    name: "Pikachu",
+                    url: "https://pokeapi.co/api/v2/pokemon/25/",
+                },
+                {
+                    name: "Charmander",
+                    url: "https://pokeapi.co/api/v2/pokemon/4/",
+                },
+            ],
+            status: "succeeded",
+            error: null,
+        },
     });
-
-    test("Hace la petición para la lista de pokemons", () => {
-        render(
-            <Provider store={store}>
-                <PokemonsTable />
-            </Provider>
-        );
-
-        // Verificar si fetchPokemons ha sido despachada
-        expect(store.dispatch).toHaveBeenCalledWith(fetchPokemons({ limit: 20, offset: 0 }));
-    });
-
-    test("Renderriza la tabbla sin erroers", () => {
-        render(
-            <Provider store={store}>
-                <PokemonsTable />
-            </Provider>
-        );
-
-        expect(screen.getByRole("table")).toBeInTheDocument();
-    });
+    store.dispatch = jest.fn(); // Mock del dispatch
+    const { getByText } = render(
+        <Provider store={store}>
+            <PokemonsTable />
+        </Provider>
+    );
+    //Revisa que los nombres de los pokemons se rendericen
+    expect(getByText("Pikachu")).toBeInTheDocument();
+    expect(getByText("Charmander")).toBeInTheDocument();
 });

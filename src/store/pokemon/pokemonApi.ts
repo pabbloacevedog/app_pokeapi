@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { VITE_URL_POKEAPI } from '../../../config/config.js';
 interface FetchPokemonsArgs {
     limit: number;
     offset: number;
@@ -11,7 +11,7 @@ export const fetchPokemons = createAsyncThunk(
     async ({ limit, offset }: FetchPokemonsArgs, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_URL_POKEAPI}`,
+                `${VITE_URL_POKEAPI}`,
                 {
                     params: { limit, offset },
                 }
